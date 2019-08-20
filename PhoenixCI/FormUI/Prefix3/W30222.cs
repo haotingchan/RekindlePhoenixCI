@@ -60,14 +60,19 @@ namespace PhoenixCI.FormUI.Prefix3 {
          return ResultStatus.Success;
       }
 
-      protected override ResultStatus Open() {
-         try {
-            base.Open();
-            txtDate.DateTimeValue = GlobalInfo.OCF_DATE;
-            txtEffDate.Text = "1901/01/01";
-            txtEffDateLower.Text = "1901/01/01";
+        protected override ResultStatus Open()
+        {
+            try
+            {
+                base.Open();
+                //txtDate.DateTimeValue = GlobalInfo.OCF_DATE;
+                //txtEffDateB.Text = "1901/01/01";
+                //txtEffDateLowerB.Text = "1901/01/01";
+                txtEffDate.setTextValue("1901/01/01");
+                txtEffDateLower.setTextValue("1901/01/01");
 #if DEBUG
-            txtDate.EditValue = "2018/12/28";
+                //txtDate.EditValue = "2018/12/28";
+                textDayNew.setTextValue("2018/12/28");
 #endif
 
             //「調整情形」欄位的下拉選單
@@ -102,20 +107,24 @@ namespace PhoenixCI.FormUI.Prefix3 {
 
       protected override ResultStatus Retrieve() {
 
-         try {
-            gcMain.DataSource = null;//清空grid
-                                     //1. 讀取資料
-            string ymd = txtDate.Text.Replace("/" , "");
-
-            DataTable dt30222 = dao30222.d_30222(ymd);
-            if (dt30222.Rows.Count == 0) {
-               MessageDisplay.Info("PLS1無任何資料!");
-               gcMain.DataSource = dt30222;//空的還是要放進Grid，因為後面可能要塞資料
-            } else {
-               dt30222.Columns.Add("Is_NewRow" , typeof(string));
-               gcMain.DataSource = dt30222;
-               gcMain.Focus();
-            }
+            try
+            {
+                gcMain.DataSource = null;//清空grid
+                                         //1. 讀取資料
+                //string ymd = txtDate.Text.Replace("/", "");
+                string ymd = textDayNew.getTextValue().Replace("/", "");
+                DataTable dt30222 = dao30222.d_30222(ymd);
+                if (dt30222.Rows.Count == 0)
+                {
+                    MessageDisplay.Info("PLS1無任何資料!");
+                    gcMain.DataSource = dt30222;//空的還是要放進Grid，因為後面可能要塞資料
+                }
+                else
+                {
+                    dt30222.Columns.Add("Is_NewRow", typeof(string));
+                    gcMain.DataSource = dt30222;
+                    gcMain.Focus();
+                }
 
             //2. 確認公告日期
             DataTable dtPostDate = dao30222.PostDate(ymd);
@@ -128,15 +137,20 @@ namespace PhoenixCI.FormUI.Prefix3 {
             DateTime lowerYmd = dtPostDate.Rows[0]["LOWER_YMD"].AsString() != "" ? dtPostDate.Rows[0]["LOWER_YMD"].AsDateTime("yyyyMMdd") : "1901/01/01".AsDateTime("yyyy/MM/dd");
             int liCount = dtPostDate.Rows[0]["LI_COUNT"].AsInt();
 
-            if (raiseYmd != default(DateTime)) {
-               txtEffDate.DateTimeValue = raiseYmd;
-               txtEffDateLower.DateTimeValue = lowerYmd;
-               lblEff.Text = "（已確認）";
-            } else {
-               txtEffDate.Text = "1901/01/01";
-               txtEffDateLower.Text = "1901/01/01";
-               lblEff.Text = "";
-            }
+                if (raiseYmd != default(DateTime))
+                {
+                    //txtEffDateB.DateTimeValue = raiseYmd;
+                    //txtEffDateLowerB.DateTimeValue = lowerYmd;
+                    lblEff.Text = "（已確認）";
+                }
+                else
+                {
+                    //txtEffDateB.Text = "1901/01/01";
+                    //txtEffDateLowerB.Text = "1901/01/01";
+                    txtEffDate.setTextValue("1901/01/01");
+                    txtEffDateLower.setTextValue("1901/01/01");
+                    lblEff.Text = "";
+                }
 
             if (liCount <= 0)
                return ResultStatus.Fail;
@@ -196,9 +210,11 @@ namespace PhoenixCI.FormUI.Prefix3 {
                   found = dt30222.Rows.Count - 1;
                }
 
-               if (dt30222PLS2.Rows[w]["PLS2_EFFECTIVE_YMD"].AsString() == txtEffDateLower.DateTimeValue.ToString("yyyyMMdd")) {
-                  dt30222.Rows[found]["PLS1_LEVEL_ADJ"] = "-";
-               }
+                    //if (dt30222PLS2.Rows[w]["PLS2_EFFECTIVE_YMD"].AsString() == txtEffDateLowerB.DateTimeValue.ToString("yyyyMMdd"))
+                    if (dt30222PLS2.Rows[w]["PLS2_EFFECTIVE_YMD"].AsString() == txtEffDateLower.ToString().Replace("/",""))
+                    {
+                        dt30222.Rows[found]["PLS1_LEVEL_ADJ"] = "-";
+                    }
 
                for (int x = 1 ; x < 16 ; x++) {
                   dt30222.Rows[found][x] = dt30222PLS2.Rows[w][x];
@@ -237,15 +253,19 @@ namespace PhoenixCI.FormUI.Prefix3 {
             #region ue_save_before
             gvMain.CloseEditor();
 
-            //0. 確認是否填入正確公告日期
-            if (txtEffDate.Text == "1901/01/01") {
-               MessageDisplay.Error("提高－公告日期非正確日期!");
-               return ResultStatus.Fail;
-            }
-            if (txtEffDateLower.Text == "1901/01/01") {
-               MessageDisplay.Error("降低－公告日期非正確日期!");
-               return ResultStatus.Fail;
-            }
+                //0. 確認是否填入正確公告日期
+                //if (txtEffDateB.Text == "1901/01/01")
+                if (txtEffDate.getTextValue() == "1901/01/01")
+                {
+                    MessageDisplay.Error("提高－公告日期非正確日期!");
+                    return ResultStatus.Fail;
+                }
+                //if (txtEffDateLowerB.Text == "1901/01/01")
+                if (txtEffDateLower.getTextValue() == "1901/01/01")
+                {
+                    MessageDisplay.Error("降低－公告日期非正確日期!");
+                    return ResultStatus.Fail;
+                }
 
             //1. 寫LOG到ci.PLLOG
             showMsg = "異動紀錄(PLLOG)更新資料庫錯誤! ";
@@ -271,46 +291,56 @@ namespace PhoenixCI.FormUI.Prefix3 {
             showMsg = "PLS1更新資料庫錯誤! ";
             myResultData = dao30222.updatePLS1(dtGridView);//更新PLS1
 
-            int f;
-            string ymd, effYmd, effYmdLower;
-            bool delResult = false;
-            //3. 判斷是否有已確認之資料
-            ymd = txtDate.Text.Replace("/" , "");
-            f = dao30222.checkData(ymd);
-            if (f > 0) {
-               DialogResult result = MessageDisplay.Choose("已確認,是否刪除舊有資料?");
-               if (result == DialogResult.No)
-                  return ResultStatus.FailButNext;
-               //3.1 刪除PLS2
-               showMsg = "PLS2刪除失敗";
-               delResult = dao30222.DeletePLS2ByDate(ymd);
-               if (!delResult) {
-                  MessageDisplay.Error(showMsg);
-                  return ResultStatus.FailButNext;
-               }
-            }
-            //4. 新增PLS2
-            showMsg = "確認資料(PLS2)更新資料庫錯誤! ";
-            effYmd = txtEffDate.Text.Replace("/" , "");
-            effYmdLower = txtEffDateLower.Text.Replace("/" , "");
-            DataTable dtPLS2 = dao30222.d_30222_pls2(ymd);
-            dtPLS2.Clear();
-            foreach (DataRow dr in dtGridView.Rows) {
-               DataRow drNew = dtPLS2.NewRow();
-               if (dr["PLS1_LEVEL_ADJ"].ToString() == "-") {
-                  drNew["PLS2_EFFECTIVE_YMD"] = effYmdLower;
-               } else {
-                  drNew["PLS2_EFFECTIVE_YMD"] = effYmd;
-               }
-               //for 	j = 2 to 16
-               for (int k = 1 ; k < 16 ; k++) {
-                  drNew[k] = dr[k];
-               }
-               //drNew["PLS2_YMD"] = dr["PLS1_YMD"];
-               //drNew["PLS2_KIND_ID2"] = dr["PLS1_KIND_ID2"];
-               //drNew["PLS2_FUT"] = dr["PLS1_FUT"];
-               //drNew["PLS2_OPT"] = dr["PLS1_OPT"];
-               //drNew["PLS2_SID"] = dr["PLS1_SID"];
+                int f;
+                string ymd, effYmd, effYmdLower;
+                bool delResult = false;
+                //3. 判斷是否有已確認之資料
+                //ymd = txtDate.Text.Replace("/", "");
+                ymd = textDayNew.getTextValue().Replace("/", "");
+                f = dao30222.checkData(ymd);
+                if (f > 0)
+                {
+                    DialogResult result = MessageDisplay.Choose("已確認,是否刪除舊有資料?");
+                    if (result == DialogResult.No)
+                        return ResultStatus.FailButNext;
+                    //3.1 刪除PLS2
+                    showMsg = "PLS2刪除失敗";
+                    delResult = dao30222.DeletePLS2ByDate(ymd);
+                    if (!delResult)
+                    {
+                        MessageDisplay.Error(showMsg);
+                        return ResultStatus.FailButNext;
+                    }
+                }
+                //4. 新增PLS2
+                showMsg = "確認資料(PLS2)更新資料庫錯誤! ";
+                //effYmd = txtEffDateB.Text.Replace("/", "");
+                //effYmdLower = txtEffDateLowerB.Text.Replace("/", "");
+                effYmd = txtEffDate.getTextValue().Replace("/", "");
+                effYmdLower = txtEffDateLower.getTextValue().Replace("/", "");
+                DataTable dtPLS2 = dao30222.d_30222_pls2(ymd);
+                dtPLS2.Clear();
+                foreach (DataRow dr in dtGridView.Rows)
+                {
+                    DataRow drNew = dtPLS2.NewRow();
+                    if (dr["PLS1_LEVEL_ADJ"].ToString() == "-")
+                    {
+                        drNew["PLS2_EFFECTIVE_YMD"] = effYmdLower;
+                    }
+                    else
+                    {
+                        drNew["PLS2_EFFECTIVE_YMD"] = effYmd;
+                    }
+                    //for 	j = 2 to 16
+                    for (int k = 1; k < 16; k++)
+                    {
+                        drNew[k] = dr[k];
+                    }
+                    //drNew["PLS2_YMD"] = dr["PLS1_YMD"];
+                    //drNew["PLS2_KIND_ID2"] = dr["PLS1_KIND_ID2"];
+                    //drNew["PLS2_FUT"] = dr["PLS1_FUT"];
+                    //drNew["PLS2_OPT"] = dr["PLS1_OPT"];
+                    //drNew["PLS2_SID"] = dr["PLS1_SID"];
 
                //drNew["PLS2_LEVEL_ADJ"] = dr["PLS1_LEVEL_ADJ"];
                //drNew["PLS2_LEVEL"] = dr["PLS1_CP_LEVEL"];
@@ -512,61 +542,77 @@ namespace PhoenixCI.FormUI.Prefix3 {
       /// <param name="sender"></param>
       /// <param name="e"></param>
       private void gvMain_CellValueChanging(object sender , DevExpress.XtraGrid.Views.Base.CellValueChangedEventArgs e) {
-         try {
-            GridView gv = sender as GridView;
-            int data;
-            if (e.Column.Name == "PLS1_CP_LEVEL") {
-               data = e.Value.AsInt();
-               DataTable dtPLST1 = dao30222.SetPLST1LevelData(data);
-               if (dtPLST1.Rows.Count == 0) {
-                  MessageDisplay.Error("PLST1無任何資料!");
-                  return;
-               }
-               gv.SetRowCellValue(e.RowHandle , "PLS1_CP_NATURE" , dtPLST1.Rows[0]["PLST1_NATURE"]);
-               gv.SetRowCellValue(e.RowHandle , "PLS1_CP_LEGAL" , dtPLST1.Rows[0]["PLST1_LEGAL"]);
-               gv.SetRowCellValue(e.RowHandle , "PLS1_CP_999" , dtPLST1.Rows[0]["PLST1_999"]);
-               if (gv.GetRowCellValue(e.RowHandle , "PLS1_CUR_LEVEL").AsInt() > data) {
-                  gv.SetRowCellValue(e.RowHandle , "PLS1_LEVEL_ADJ" , "+");
-               } else if (gv.GetRowCellValue(e.RowHandle , "PLS1_CUR_LEVEL").AsInt() < data) {
-                  gv.SetRowCellValue(e.RowHandle , "PLS1_LEVEL_ADJ" , "-");
-               } else {
-                  gv.SetRowCellValue(e.RowHandle , "PLS1_LEVEL_ADJ" , " ");
-               }
+            try
+            {
+                GridView gv = sender as GridView;
+                int data;
+                if (e.Column.Name == "PLS1_CP_LEVEL")
+                {
+                    data = e.Value.AsInt();
+                    DataTable dtPLST1 = dao30222.SetPLST1LevelData(data);
+                    if (dtPLST1.Rows.Count == 0)
+                    {
+                        MessageDisplay.Error("PLST1無任何資料!");
+                        return;
+                    }
+                    gv.SetRowCellValue(e.RowHandle, "PLS1_CP_NATURE", dtPLST1.Rows[0]["PLST1_NATURE"]);
+                    gv.SetRowCellValue(e.RowHandle, "PLS1_CP_LEGAL", dtPLST1.Rows[0]["PLST1_LEGAL"]);
+                    gv.SetRowCellValue(e.RowHandle, "PLS1_CP_999", dtPLST1.Rows[0]["PLST1_999"]);
+                    if (gv.GetRowCellValue(e.RowHandle, "PLS1_CUR_LEVEL").AsInt() > data)
+                    {
+                        gv.SetRowCellValue(e.RowHandle, "PLS1_LEVEL_ADJ", "+");
+                    }
+                    else if (gv.GetRowCellValue(e.RowHandle, "PLS1_CUR_LEVEL").AsInt() < data)
+                    {
+                        gv.SetRowCellValue(e.RowHandle, "PLS1_LEVEL_ADJ", "-");
+                    }
+                    else
+                    {
+                        gv.SetRowCellValue(e.RowHandle, "PLS1_LEVEL_ADJ", " ");
+                    }
+                }
             }
-         } catch (Exception ex) {
-            WriteLog(ex , "" , false);
-         }
-      }
-      #endregion
-      /// <summary>
-      /// 點擊加入前次公告資料
-      /// </summary>
-      /// <param name="sender"></param>
-      /// <param name="e"></param>
-      private void btnPrev_Click(object sender , EventArgs e) {
-         try {
-            if (gvMain.RowCount == 0) {
-               DataTable dt30222 = dao30222.d_30222("");//給一個空的，才能不讀取直接加入前次公告資料
-               dt30222.Columns.Add("Is_NewRow" , typeof(string));
-               gcMain.DataSource = dt30222;
+            catch (Exception ex)
+            {
+                WriteLog(ex, "", false);
             }
-            string ymd = txtDate.Text.Replace("/" , "");
-            gvMain.CloseEditor();
-            DataTable dtGridView = (DataTable)gcMain.DataSource;
-            DataView dv;
-            DataTable dtSorted;
-            DataTable dtPrev = dao30222.d_30222_prev(ymd);
-            if (dtPrev.Rows.Count == 0) {
-               dv = dtGridView.AsDataView();
-               dv.Sort = "PLS1_KIND_ID2";
-               dtSorted = dv.ToTable();
-               gcMain.DataSource = dtSorted;
-               return;
-            }
-            for (int f = 0 ; f < dtPrev.Rows.Count ; f++) {
-               DataRow dr = dtPrev.Rows[f];
-               DataRow drNew = dtGridView.NewRow();
-               drNew["PLS1_YMD"] = ymd;
+        }
+        #endregion
+        /// <summary>
+        /// 點擊加入前次公告資料
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnPrev_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (gvMain.RowCount == 0)
+                {
+                    DataTable dt30222 = dao30222.d_30222("");//給一個空的，才能不讀取直接加入前次公告資料
+                    dt30222.Columns.Add("Is_NewRow", typeof(string));
+                    gcMain.DataSource = dt30222;
+                }
+                //string ymd = txtDate.Text.Replace("/", "");
+                string ymd = textDayNew.getTextValue().Replace("/", "");
+                gvMain.CloseEditor();
+                DataTable dtGridView = (DataTable)gcMain.DataSource;
+                DataView dv;
+                DataTable dtSorted;
+                DataTable dtPrev = dao30222.d_30222_prev(ymd);
+                if (dtPrev.Rows.Count == 0)
+                {
+                    dv = dtGridView.AsDataView();
+                    dv.Sort = "PLS1_KIND_ID2";
+                    dtSorted = dv.ToTable();
+                    gcMain.DataSource = dtSorted;
+                    return;
+                }
+                for (int f = 0; f < dtPrev.Rows.Count; f++)
+                {
+                    DataRow dr = dtPrev.Rows[f];
+                    DataRow drNew = dtGridView.NewRow();
+                    drNew["PLS1_YMD"] = ymd;
 
                drNew["PLS1_KIND_ID2"] = dr["PLS2_KIND_ID2"];
                drNew["PLS1_FUT"] = dr["PLS2_FUT"];

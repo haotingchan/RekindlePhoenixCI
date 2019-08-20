@@ -1847,6 +1847,30 @@
     <Compile Include="Shared\IXml40xxxData.cs" />
     <Compile Include="Shared\ReportExportFunc.cs" />
     <Compile Include="Shared\ReturnMessageClass.cs" />
+    <Compile Include="UserControlMaskedTextBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControlMaskedTextBox.Designer.cs">
+      <DependentUpon>UserControlMaskedTextBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControlMaskedTextBoxDay.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControlMaskedTextBoxDay.Designer.cs">
+      <DependentUpon>UserControlMaskedTextBoxDay.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControlMaskedTextBoxMonth.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControlMaskedTextBoxMonth.Designer.cs">
+      <DependentUpon>UserControlMaskedTextBoxMonth.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControlMaskedTextBox_Year.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControlMaskedTextBox_Year.Designer.cs">
+      <DependentUpon>UserControlMaskedTextBox_Year.cs</DependentUpon>
+    </Compile>
     <Compile Include="Widget\DropDownList.cs" />
     <EmbeddedResource Include="FormUI\Prefix1\W10023.resx">
       <DependentUpon>W10023.cs</DependentUpon>
@@ -2640,6 +2664,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\RZ0011.resx">
       <DependentUpon>RZ0011.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControlMaskedTextBox.resx">
+      <DependentUpon>UserControlMaskedTextBox.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Excel_Template\20110_JTX.bat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

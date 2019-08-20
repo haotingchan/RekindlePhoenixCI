@@ -147,7 +147,7 @@
             // 
             // chgKind
             // 
-            this.chgKind.EditValue = "%";
+            this.chgKind.EditValue = null;
             this.chgKind.Location = new System.Drawing.Point(144, 199);
             this.chgKind.Name = "chgKind";
             this.chgKind.Properties.Appearance.BackColor = System.Drawing.Color.Transparent;
