@@ -10,9 +10,7 @@ using System.IO;
 using Common;
 using DataObjects.Dao.Together.SpecificDao;
 using System.Data;
-/// <summary>
-/// john,20190403,歷次調整保證金查詢
-/// </summary>
+
 namespace PhoenixCI.FormUI.Prefix4
 {
    /// <summary>
@@ -103,7 +101,7 @@ namespace PhoenixCI.FormUI.Prefix4
          
          try {
             //資料來源
-            DataTable dt = new D40050().GetData(emDate.Text.AsDateTime(), (emYear.Text + "/01/01").AsDateTime(), $"{oswGrpLookItem.EditValue.AsString()}%");
+            DataTable dt = new D40050().GetData(emDate.Text.AsDateTime(), (emYear.Text + "/01/01").AsDateTime(), $"{oswGrpLookItem.EditValue.AsString()}%", $"{chgKind.EditValue.AsString()}%");
             if (dt.Rows.Count <= 0) {
                MessageDisplay.Info(emDate.Text + ",讀取「保證金歷次調整紀錄」無任何資料!");
                return ResultStatus.Fail;
