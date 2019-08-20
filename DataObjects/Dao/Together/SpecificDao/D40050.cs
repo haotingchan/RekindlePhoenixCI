@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-/// <summary>
-/// john,201900403,D40050
-/// </summary>
+
 namespace DataObjects.Dao.Together.SpecificDao
 {
    public class D40050 : DataGate
@@ -21,12 +15,13 @@ namespace DataObjects.Dao.Together.SpecificDao
       /// <param name="as_year_date"></param>
       /// <param name="as_osw_grp"></param>
       /// <returns></returns>
-      public DataTable GetData(DateTime as_date, DateTime as_year_date, string as_osw_grp)
+      public DataTable GetData(DateTime as_date, DateTime as_year_date, string as_osw_grp, string as_chg_kind)
       {
          object[] parms = {
             ":as_date",as_date,
             ":as_year_date",as_year_date,
-            ":as_osw_grp",as_osw_grp
+            ":as_osw_grp",as_osw_grp,
+            ":as_chg_kind",as_chg_kind
             };
 
          string sql =
@@ -57,6 +52,7 @@ namespace DataObjects.Dao.Together.SpecificDao
                         MG4_KIND_ID = APDK_KIND_ID 
                     and APDK_UNDERLYING_MARKET = COD_ID(+)
                     and APDK_MARKET_CLOSE like :as_osw_grp
+                    and MG4_CHG_KIND like :as_chg_kind
                     ) sort
                     ORDER BY MGT2_SEQ_NO,decode(RPT_SEQ_NO,null,99,RPT_SEQ_NO),SUBSTR(MG4_KIND_ID,1,2), decode(SUBSTR(MG4_KIND_ID,3,1),MG4_PROD_TYPE,' ' ,SUBSTR(MG4_KIND_ID,3,1)),MG4_DATE,CNT
                     )
