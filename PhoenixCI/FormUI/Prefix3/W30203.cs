@@ -56,9 +56,13 @@ namespace PhoenixCI.FormUI.Prefix3 {
             DataTable dtStatus = new CODW().ListLookUpEdit("30203" , "PL1B_ADJ");
             statusLookUpEdit = new RepositoryItemLookUpEdit();
             statusLookUpEdit.SetColumnLookUp(dtStatus , "CODW_ID" , "CODW_DESC");
+            statusLookUpEdit.LookAndFeel.SkinName = "The Bezier";
+            statusLookUpEdit.LookAndFeel.UseDefaultLookAndFeel = false;
+            statusLookUpEdit.UseDropDownRowsAsMaxCount = true;
             PL1B_ADJ.ColumnEdit = statusLookUpEdit;
             PL1_NATURE_ADJ.ColumnEdit = statusLookUpEdit;
             PL1_LEGAL_ADJ.ColumnEdit = statusLookUpEdit;
+            
 
             #region BandedColumnCaption換行
             //gvGBF

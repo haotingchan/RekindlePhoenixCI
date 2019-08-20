@@ -70,8 +70,8 @@ namespace PhoenixCI.FormUI.Prefix5 {
          //[契約]下拉選單
          _RepLookUpEdit3 = new RepositoryItemLookUpEdit();
          DataTable dtActId = daoAPDK.ListAll2();
-         DataTable dtMerge = dao50120.GetMergeData(txtMonth.Text.Replace("/" , ""));
-         Extension.SetColumnLookUp(_RepLookUpEdit3 , dtMerge , "MPDF_KIND_ID" , "CP_DISPLAY" , TextEditStyles.Standard , "");
+         //DataTable dtMerge = dao50120.GetMergeData(txtMonth.Text.Replace("/" , ""));
+         Extension.SetColumnLookUp(_RepLookUpEdit3 , dtActId , "MPDF_KIND_ID" , "CP_DISPLAY" , TextEditStyles.Standard , "");
          gcMain.RepositoryItems.Add(_RepLookUpEdit3);
 
          return ResultStatus.Success;
@@ -134,11 +134,6 @@ namespace PhoenixCI.FormUI.Prefix5 {
       protected override ResultStatus CheckShield() {
          base.CheckShield(gcMain);
          if (!IsDataModify(gcMain)) { return ResultStatus.Fail; }
-         //if (cbxUserId.SelectedItem == null) {
-         //    MessageDisplay.Warning("使用者代號不可為空白!");
-         //    return ResultStatus.Fail;
-         //}
-
          return ResultStatus.Success;
       }
 
@@ -208,7 +203,6 @@ namespace PhoenixCI.FormUI.Prefix5 {
          gv.SetRowCellValue(gv.FocusedRowHandle , gv.Columns["Is_NewRow"] , 1);
          gv.SetRowCellValue(e.RowHandle , gv.Columns["MPDF_YM"] , txtMonth.Text.Replace("/" , ""));
       }
-
 
       private void gvMain_ShowingEditor(object sender , CancelEventArgs e) {
          GridView gv = sender as GridView;

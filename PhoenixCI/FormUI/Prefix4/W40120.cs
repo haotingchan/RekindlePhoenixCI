@@ -51,19 +51,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
             labMsg.Text = "訊息：資料轉出中........";
             this.Refresh();
 
-            //SplashScreenManager.ShowForm(this , typeof(FormWait) , true , true);
-            //SplashScreenManager.CloseForm();
-
-            this.Invoke(new MethodInvoker(() => {
-               FormWait formWait = new FormWait();
-
-               SplashScreenManager.ShowForm(this , typeof(FormWait) , true , true);
-
-               //SplashScreenManager.ShowForm(this , typeof(FormWait) , true , true , SplashFormStartPosition.Manual , pointWait , ParentFormState.Locked);
-            }));
-
-
-
             //1.2 get data
             DataTable dt = new D40120().ListData(txtStartDate.DateTimeValue);
             DataTable dt1 = new D40120().ListData2(txtStartDate.DateTimeValue);//新的SQL
@@ -236,11 +223,6 @@ namespace PhoenixCI.FormUI.Prefix4 {
                MessageDisplay.Error("文字檔「" + filePath + "」Open檔案錯誤!" , GlobalInfo.ErrorText);
                return ResultStatus.Fail;
             }
-
-            SplashScreenManager.Default.SetWaitFormCaption("請燒等");
-            SplashScreenManager.Default.SetWaitFormDescription("訊息：資料轉出中........12345");
-            Thread.Sleep(2500);
-            SplashScreenManager.CloseForm();
 
             //if (FlagAdmin)
             //   System.Diagnostics.Process.Start(filePath);
