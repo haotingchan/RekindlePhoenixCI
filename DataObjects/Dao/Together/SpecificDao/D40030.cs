@@ -140,6 +140,181 @@ namespace DataObjects.Dao.Together.SpecificDao {
          return dtResult;
       }
 
-   }
+        /// <summary>
+        /// get Margin Change value - Max(M)
+        /// </summary>
+        /// <param name="as_ymd">日期(eg. 20190212)</param>
+        /// <param name="kid">代碼(eg. TXF)</param>
+        /// <returns></returns>
+        public double getMax(String as_ymd, String kid)
+        {
+            object[] parms = {
+            ":as_ymd",as_ymd,
+            ":kid",kid
+            };
+            string sql = @"select MG1_CHANGE_RANGE from ci.MG1_3M where MG1_YMD = :as_ymd and MG1_KIND_ID = :kid and MG1_MODEL_TYPE = 'M' ";
+            DataTable dtResult = db.GetDataTable(sql, parms);
+            if (dtResult.Rows.Count > 0) return (double)dtResult.Rows[0][0];
+            return 0;
+        }
+
+        /// <summary>
+        /// get Margin Change value - Max(M)
+        /// </summary>
+        /// <param name="as_ymd">日期(eg. 20190212)</param>
+        /// <param name="kid">代碼(eg. TXO)</param>
+        /// <param name="ab">選擇權的AB值(eg. A|B)</param>
+        /// <returns></returns>
+        public double getOptMax(String as_ymd, String kid, String ab)
+        {
+            object[] parms = {
+            ":as_ymd",as_ymd,
+            ":kid",kid,
+            ":ab",ab
+            };
+            string sql = @"select MG1_CHANGE_RANGE from ci.MG1_3M where MG1_YMD = :as_ymd and MG1_KIND_ID = :kid and MG1_MODEL_TYPE ='M' and MG1_AB_TYPE = :ab ";
+            DataTable dtResult = db.GetDataTable(sql, parms);
+            if (dtResult.Rows.Count > 0) return (double)dtResult.Rows[0][0];
+            return 0;
+        }
+
+        /// <summary>
+        /// get Margin Change value - Max(m)
+        /// </summary>
+        /// <param name="as_ymd">日期(eg. 20190212)</param>
+        /// <param name="kid">代碼(eg. TXO)</param>
+        /// <param name="ab">選擇權的AB值(eg. A|B)</param>
+        /// <returns></returns>
+        public double getOptfMax(String as_ymd, String kid, String ab)
+        {
+            object[] parms = {
+            ":as_ymd",as_ymd,
+            ":kid",kid,
+            ":ab",ab
+            };
+            string sql = @"select MG1_CHANGE_RANGE from ci.MG1_3M where MG1_YMD = :as_ymd and MG1_KIND_ID = :kid and MG1_MODEL_TYPE ='m' and MG1_AB_TYPE = :ab ";
+            DataTable dtResult = db.GetDataTable(sql, parms);
+            if (dtResult.Rows.Count > 0) return (double)dtResult.Rows[0][0];
+            return 0;
+        }
+
+        /// <summary>
+        /// get Margin Change value - SMA(S)
+        /// </summary>
+        /// <param name="as_ymd">日期(eg. 20190212)</param>
+        /// <param name="kid">代碼(eg. TXF)</param>
+        /// <returns></returns>
+        public double getSMA(String as_ymd, String kid)
+        {
+            object[] parms = {
+            ":as_ymd",as_ymd,
+            ":kid",kid
+            };
+            string sql = @"select MG1_CHANGE_RANGE from ci.MG1_3M where MG1_YMD = :as_ymd and MG1_KIND_ID = :kid and MG1_MODEL_TYPE = 'S' ";
+            DataTable dtResult = db.GetDataTable(sql, parms);
+            if (dtResult.Rows.Count > 0) return (double)dtResult.Rows[0][0];
+            return 0;
+        }
+
+        /// <summary>
+        /// get Margin Change value - SMA(S)
+        /// </summary>
+        /// <param name="as_ymd">日期(eg. 20190212)</param>
+        /// <param name="kid">代碼(eg. TXO)</param>
+        /// <param name="ab">選擇權的AB值(eg. A|B)</param>
+        /// <returns></returns>
+        public double getOptSMA(String as_ymd, String kid, String ab)
+        {
+            object[] parms = {
+            ":as_ymd",as_ymd,
+            ":kid",kid,
+            ":ab",ab
+            };
+            string sql = @"select MG1_CHANGE_RANGE from ci.MG1_3M where MG1_YMD = :as_ymd and MG1_KIND_ID = :kid and MG1_MODEL_TYPE ='S' and MG1_AB_TYPE = :ab ";
+            DataTable dtResult = db.GetDataTable(sql, parms);
+            if (dtResult.Rows.Count > 0) return (double)dtResult.Rows[0][0];
+            return 0;
+        }
+
+        /// <summary>
+        /// get Margin Change value - SMA(s)
+        /// </summary>
+        /// <param name="as_ymd">日期(eg. 20190212)</param>
+        /// <param name="kid">代碼(eg. TXO)</param>
+        /// <param name="ab">選擇權的AB值(eg. A|B)</param>
+        /// <returns></returns>
+        public double getOptfSMA(String as_ymd, String kid, String ab)
+        {
+            object[] parms = {
+            ":as_ymd",as_ymd,
+            ":kid",kid,
+            ":ab",ab
+            };
+            string sql = @"select MG1_CHANGE_RANGE from ci.MG1_3M where MG1_YMD = :as_ymd and MG1_KIND_ID = :kid and MG1_MODEL_TYPE ='s' and MG1_AB_TYPE = :ab ";
+            DataTable dtResult = db.GetDataTable(sql, parms);
+            if (dtResult.Rows.Count > 0) return (double)dtResult.Rows[0][0];
+            return 0;
+        }
+
+
+        /// <summary>
+        /// get Margin Change value - EWMA(E)
+        /// </summary>
+        /// <param name="as_ymd">日期(eg. 20190212)</param>
+        /// <param name="kid">代碼(eg. TXF)</param>
+        /// <returns></returns>
+        public double getEWMA(String as_ymd, String kid)
+        {
+            object[] parms = {
+            ":as_ymd",as_ymd,
+            ":kid",kid
+            };
+            string sql = @"select MG1_CHANGE_RANGE from ci.MG1_3M where MG1_YMD = :as_ymd and MG1_KIND_ID = :kid and MG1_MODEL_TYPE = 'E' ";
+            DataTable dtResult = db.GetDataTable(sql, parms);
+            if (dtResult.Rows.Count >0) return (double)dtResult.Rows[0][0];
+            return 0;
+        }
+
+        /// <summary>
+        /// get Margin Change value - EWMA(E)
+        /// </summary>
+        /// <param name="as_ymd">日期(eg. 20190212)</param>
+        /// <param name="kid">代碼(eg. TXF)</param>
+        /// <param name="ab">選擇權的AB值(eg. A|B)</param>
+        /// <returns></returns>
+        public double getOptEWMA(String as_ymd, String kid, String ab )
+        {
+            object[] parms = {
+            ":as_ymd",as_ymd,
+            ":kid",kid,
+            ":ab",ab
+            };
+            string sql = @"select MG1_CHANGE_RANGE from ci.MG1_3M where MG1_YMD = :as_ymd and MG1_KIND_ID = :kid and MG1_MODEL_TYPE ='E' and MG1_AB_TYPE = :ab ";
+            DataTable dtResult = db.GetDataTable(sql, parms);
+            if (dtResult.Rows.Count > 0) return (double)dtResult.Rows[0][0];
+            return 0;
+        }
+
+        /// <summary>
+        /// get Margin Change value - EWMA(e)
+        /// </summary>
+        /// <param name="as_ymd">日期(eg. 20190212)</param>
+        /// <param name="kid">代碼(eg. TXF)</param>
+        /// <param name="ab">選擇權的AB值(eg. A|B)</param>
+        /// <returns></returns>
+        public double getOptfEWMA(String as_ymd, String kid, String ab)
+        {
+            object[] parms = {
+            ":as_ymd",as_ymd,
+            ":kid",kid,
+            ":ab",ab
+            };
+            string sql = @"select MG1_CHANGE_RANGE from ci.MG1_3M where MG1_YMD = :as_ymd and MG1_KIND_ID = :kid and MG1_MODEL_TYPE ='e' and MG1_AB_TYPE = :ab ";
+            DataTable dtResult = db.GetDataTable(sql, parms);
+            if (dtResult.Rows.Count > 0) return (double)dtResult.Rows[0][0];
+            return 0;
+        }
+
+    }
 
 }
